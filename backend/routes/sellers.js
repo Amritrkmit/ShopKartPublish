@@ -230,6 +230,9 @@ async function geocodeLocation(city, pincode, country = 'India') {
 
         console.log(`🌍 Geocoding: ${query}`);
 
+        // Throttle: Nominatim enforces 1 req/sec rate limit
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
         const response = await fetch(url, {
             headers: {
                 'User-Agent': 'ReactWebsiteApp/1.0' // Required by Nominatim

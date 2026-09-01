@@ -1,11 +1,20 @@
 const memjs = require('memjs');
 
-// Connect to Memcached on default localhost:11211
-// In production, this can be configured via MEMCACHED_SERVERS env var
-const client = memjs.Client.create(process.env.MEMCACHED_SERVERS || 'localhost:11211', {
-    timeout: 1,
-    retries: 2
-});
+// Only connect to Memcached if MEMCACHED_SERVERS is explicitly configured.
+// In production on Render (no Memcached available), this avoids flooding logs
+// with "Server <localhost:11211> failed" errors every few seconds.
+const MEMCACHED_SERVERS = process.env.MEMCACHED_SERVERS;
+let client = null;
+
+if (MEMCACHED_SERVERS) {
+    client = memjs.Client.create(MEMCACHED_SERVERS, {
+        timeout: 1,
+        retries: 2
+    });
+    console.log(`✅ Memcached connected to: ${MEMCACHED_SERVERS}`);
+} else {
+    console.log('ℹ️  MEMCACHED_SERVERS not set — caching disabled (no-op mode)');
+}
 
 /**
  * Set a value in the cache
@@ -15,7 +24,7 @@ const client = memjs.Client.create(process.env.MEMCACHED_SERVERS || 'localhost:1
  */
 exports.set = async (key, data, ttl = 3600) => {
     try {
-        if (!client) return;
+        if (!client) return null;
         return await client.set(key, JSON.stringify(data), { expires: ttl });
     } catch (err) {
         console.error("Memcached SET error:", err.message);

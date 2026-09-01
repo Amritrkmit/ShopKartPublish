@@ -319,9 +319,13 @@ const ProductDetails = () => {
 
         // 2. Check Seller Vibe Availability
         try {
-            const vibeRes = await axios.get(`${API_BASE_URL}/api/shops/${p.shop_id}/vibe`);
-            // Show only if total_reviews > 0 and a valid score exists
-            setHasVibeScore(vibeRes.data && vibeRes.data.total_vibe_reviews > 0);
+            if (p.shop_id) {
+                const vibeRes = await axios.get(`${API_BASE_URL}/api/shops/${p.shop_id}/vibe`);
+                // Show only if total_reviews > 0 and a valid score exists
+                setHasVibeScore(vibeRes.data && vibeRes.data.total_vibe_reviews > 0);
+            } else {
+                setHasVibeScore(false);
+            }
         } catch (e) {
             setHasVibeScore(false);
         }
