@@ -125,6 +125,19 @@ app.use("/assets/customizations", express.static(path.join(__dirname, "assets/cu
 // Enable pre-flight for all routes
 // app.options("*", cors()); // Removed to fix PathError
 
+// Health Check & Root Route
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "online",
+    message: "ShopKart Backend API is live and healthy",
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // ------------------- Routes -------------------
 app.use("/users", authRoutes);
 app.use("/api/auth", authOtpRoutes);
