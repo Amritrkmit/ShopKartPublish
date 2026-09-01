@@ -311,8 +311,8 @@ app.use((err, req, res, next) => {
 // ------------------- Start Server -------------------
 const PORT = parseInt(process.env.PORT || 6376, 10);
 
-server.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 }).on("error", (err) => {
   if (err.code === "EADDRINUSE") {
     console.error(`❌ Port ${PORT} is already in use. Please kill the process running on this port.`);

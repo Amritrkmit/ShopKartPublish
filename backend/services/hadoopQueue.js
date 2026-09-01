@@ -11,6 +11,13 @@ const hadoopClient = new HadoopClient();
 // Create queue (uses Redis)
 const hadoopQueue = new Queue('hadoop-ingestion', process.env.REDIS_URL || 'redis://localhost:6379');
 
+hadoopQueue.on('error', (err) => {
+    // Gracefully handle Redis offline in cloud environments
+    if (err.code !== 'ECONNREFUSED') {
+        console.warn('⚠️ [Hadoop Queue Warning]:', err.message);
+    }
+});
+
 /**
  * Process queue jobs
  */
