@@ -7,21 +7,35 @@ const blockDirectAccess = (req, res, next) => {
     const referer = req.get('referer');
     const acceptHeader = req.get('accept');
 
-    // Allow requests from localhost frontend (React app)
+    // Allow requests from localhost, Vercel, Netlify, or any configured frontend
     const allowedOrigins = [
         'http://localhost:3000',
         'http://localhost:3001',
         'http://localhost:3002',
-        'http://localhost:3003'
-    ];
+        'http://localhost:3003',
+        process.env.FRONTEND_URL
+    ].filter(Boolean);
 
-    // Check if request is from allowed origin
-    if (origin && allowedOrigins.includes(origin)) {
-        return next();
+    // If request comes from an application with Origin
+    if (origin) {
+        if (
+            allowedOrigins.includes(origin) ||
+            origin.startsWith('http://localhost') ||
+            origin.endsWith('.vercel.app') ||
+            origin.endsWith('.netlify.app')
+        ) {
+            return next();
+        }
+        return next(); // Allow application origins
     }
 
     // Check if referer is from allowed origin
-    if (referer && allowedOrigins.some(allowed => referer.startsWith(allowed))) {
+    if (referer && (
+        allowedOrigins.some(allowed => referer.startsWith(allowed)) ||
+        referer.includes('.vercel.app') ||
+        referer.includes('.netlify.app') ||
+        referer.startsWith('http://localhost')
+    )) {
         return next();
     }
 
@@ -30,16 +44,20 @@ const blockDirectAccess = (req, res, next) => {
         return next();
     }
 
-    // Check if Accept header indicates JSON request (not browser navigation)
-    if (acceptHeader && acceptHeader.includes('application/json') && !acceptHeader.includes('text/html')) {
+    // Allow API requests (JSON or wildcard accept)
+    if (!acceptHeader || acceptHeader.includes('application/json') || acceptHeader.includes('*/*')) {
         return next();
     }
 
-    // If none of the above, it's likely direct browser access
-    return res.status(403).json({
-        error: 'Direct access forbidden',
-        message: 'This API endpoint cannot be accessed directly through the browser. Please use the application interface.'
-    });
+    // Only block if a user is typing the API URL directly into browser bar (which sends Accept: text/html)
+    if (acceptHeader.includes('text/html') && !referer && !origin) {
+        return res.status(403).json({
+            error: 'Direct access forbidden',
+            message: 'This API endpoint cannot be accessed directly through the browser. Please use the application interface.'
+        });
+    }
+
+    return next();
 };
 
 module.exports = blockDirectAccess;
