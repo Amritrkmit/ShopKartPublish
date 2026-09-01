@@ -62,32 +62,28 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 
 // ------------------- Dynamic CORS -------------------
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        "http://localhost:3000",
-        "http://localhost:5002",
-        "http://localhost:5003",
-        process.env.FRONTEND_URL
-      ].filter(Boolean);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, etc)
+    if (!origin) return callback(null, true);
+    // Allow localhost, Vercel, Netlify, and any configured FRONTEND_URL
+    if (
+      origin.startsWith("http://localhost") ||
+      origin.endsWith(".vercel.app") ||
+      origin.endsWith(".netlify.app") ||
+      origin === process.env.FRONTEND_URL
+    ) {
+      return callback(null, true);
+    }
+    // Allow all other origins in production
+    callback(null, true);
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+};
 
-      if (
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        origin.startsWith("http://localhost") ||
-        origin.endsWith(".vercel.app") ||
-        origin.endsWith(".netlify.app")
-      ) {
-        return callback(null, true);
-      }
-      callback(null, true); // Allow origin in production
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
-  })
-);
+app.use(cors(corsOptions));
 
 // ------------------- Middleware -------------------
 // Security Headers
@@ -119,11 +115,9 @@ app.use("/uploads/sellers", express.static(path.join(__dirname, "uploads/sellers
 app.use("/uploads/reviews", express.static(path.join(__dirname, "uploads/reviews")));
 app.use("/assets/customizations", express.static(path.join(__dirname, "assets/customizations")));
 
-// CORS moved to top
-
-// Enable pre-flight for all routes
-// Enable pre-flight for all routes
-// app.options("*", cors()); // Removed to fix PathError
+// Explicitly handle preflight OPTIONS requests for all routes.
+// This is critical for cross-origin POST/PUT/DELETE with JSON body.
+app.options("*", cors(corsOptions));
 
 // Health Check & Root Route
 app.get("/", (req, res) => {
@@ -214,10 +208,7 @@ setTimeout(() => {
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: (origin, callback) => {
-      if (!origin || origin.startsWith("http://localhost")) return callback(null, true);
-      callback(new Error("Not allowed by CORS"));
-    },
+    origin: corsOptions.origin,
     methods: ["GET", "POST"],
     credentials: true,
   },
