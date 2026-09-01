@@ -115,9 +115,18 @@ app.use("/uploads/sellers", express.static(path.join(__dirname, "uploads/sellers
 app.use("/uploads/reviews", express.static(path.join(__dirname, "uploads/reviews")));
 app.use("/assets/customizations", express.static(path.join(__dirname, "assets/customizations")));
 
-// Explicitly handle preflight OPTIONS requests for all routes.
+// Handle preflight OPTIONS requests for all routes (path-to-regexp compatible).
 // This is critical for cross-origin POST/PUT/DELETE with JSON body.
-app.options("*", cors(corsOptions));
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    return res.sendStatus(204);
+  }
+  next();
+});
 
 // Health Check & Root Route
 app.get("/", (req, res) => {
