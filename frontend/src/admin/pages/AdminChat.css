@@ -1,0 +1,65 @@
+.admin-chat-container {
+  display: flex;
+  height: 80vh;
+  border: 1px solid #ccc;
+}
+
+.tickets-list {
+  width: 25%;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.ticket-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.ticket-item.active {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-msg {
+  margin-bottom: 8px;
+}
+
+.admin-msg {
+  text-align: right;
+  color: blue;
+}
+
+.user-msg {
+  text-align: left;
+  color: green;
+}
+
+.chat-input {
+  display: flex;
+  padding: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 8px;
+  margin-right: 5px;
+}
+
+.chat-input button {
+  padding: 8px 12px;
+}

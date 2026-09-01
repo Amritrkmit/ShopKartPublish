@@ -1,0 +1,61 @@
+/* Flipkart-style Bars Loader */
+.loader-flipkart {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.loader-bar {
+    width: 6px;
+    height: 30px;
+    background: #2874f0;
+    border-radius: 2px;
+    animation: loaderBars 1s ease-in-out infinite;
+}
+
+.loader-bar:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loader-bar:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.loader-bar:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.loader-bar:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+@keyframes loaderBars {
+
+    0%,
+    100% {
+        transform: scaleY(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scaleY(1.5);
+        opacity: 1;
+    }
+}
+
+/* Pulse Animation for Skeletons */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}

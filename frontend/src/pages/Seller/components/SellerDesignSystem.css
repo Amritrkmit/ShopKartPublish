@@ -1,0 +1,112 @@
+/* Seller Dashboard Design System - Standardized Typography */
+
+:root {
+    --seller-font: 'Outfit', sans-serif;
+    --seller-base-size: 16px;
+    --seller-text-xs: 12px;
+    --seller-text-sm: 14px;
+    --seller-text-base: 16px;
+    --seller-text-lg: 18px;
+    --seller-text-xl: 20px;
+    --seller-text-2xl: 24px;
+    --seller-text-3xl: 30px;
+
+    --seller-font-light: 300;
+    --seller-font-regular: 400;
+    --seller-font-medium: 500;
+    --seller-font-semibold: 600;
+    --seller-font-bold: 700;
+    --seller-font-black: 900;
+}
+
+/* Force standardization on all seller dashboard elements */
+.seller-dashboard-root,
+.seller-dashboard-root * {
+    font-family: var(--seller-font) !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Standardized Heading Scale */
+.seller-dashboard-root h1,
+.seller-dashboard-root .text-2xl {
+    font-size: var(--seller-text-2xl) !important;
+    /* Standardize h1 to match Admin text-2xl */
+    font-weight: var(--seller-font-bold) !important;
+    letter-spacing: -0.01em !important;
+    color: #1f2937 !important;
+    /* gray-800 */
+}
+
+.seller-dashboard-root h2,
+.seller-dashboard-root .text-xl {
+    font-size: var(--seller-text-xl) !important;
+    font-weight: var(--seller-font-bold) !important;
+    letter-spacing: -0.01em !important;
+    color: #1f2937 !important;
+}
+
+.seller-dashboard-root h3,
+.seller-dashboard-root .text-lg {
+    font-size: var(--seller-text-lg) !important;
+    font-weight: var(--seller-font-bold) !important;
+    color: #1f2937 !important;
+}
+
+.seller-dashboard-root h4,
+.seller-dashboard-root .text-base {
+    font-size: var(--seller-text-base) !important;
+    font-weight: var(--seller-font-bold) !important;
+    color: #1f2937 !important;
+}
+
+/* Standardized Body Text */
+.seller-dashboard-root p,
+.seller-dashboard-root .text-base,
+.seller-dashboard-root span:not([class*="text-"]),
+.seller-dashboard-root div:not([class*="text-"]) {
+    font-size: var(--seller-text-base);
+    font-weight: var(--seller-font-medium);
+    line-height: 1.6;
+    color: #4b5563;
+    /* gray-600 */
+}
+
+.seller-dashboard-root .text-sm {
+    font-size: var(--seller-text-sm);
+    font-weight: var(--seller-font-medium);
+    color: #4b5563;
+}
+
+/* Compact XS Utility (Admin Style) */
+.seller-dashboard-root .text-xs,
+.seller-dashboard-root .text-\[10px\] {
+    font-size: var(--seller-text-xs) !important;
+    font-weight: var(--seller-font-bold) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    /* color: #6b7280 !important; */
+    /* gray-500 */
+}
+
+/* Sidebar and Navigation Specifics */
+.seller-dashboard-root aside a span {
+    font-size: var(--seller-text-sm) !important;
+    font-weight: var(--seller-font-semibold) !important;
+}
+
+/* Buttons and Inputs */
+.seller-dashboard-root button,
+.seller-dashboard-root input,
+.seller-dashboard-root select,
+.seller-dashboard-root textarea {
+    font-size: var(--seller-text-sm);
+    font-weight: var(--seller-font-medium);
+}
+
+.seller-dashboard-root .primary-btn,
+.seller-dashboard-root .secondary-btn {
+    font-size: var(--seller-text-xs) !important;
+    font-weight: var(--seller-font-bold) !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+}

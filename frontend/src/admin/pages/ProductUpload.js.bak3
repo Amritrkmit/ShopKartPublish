@@ -1,0 +1,510 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toastSuccess, toastError, toastConfirm } from "../../utils/toast";
+import { useParams, useNavigate } from "react-router-dom";
+import { ChevronRight, Upload, X, Bold, Italic, Underline, List, ListOrdered, Link as LinkIcon } from "lucide-react";
+import InventorySection from "../components/InventorySection";
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+export default function ProductUpload() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
+
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+  const [formData, setFormData] = useState({
+    name: "",
+    slug: "",
+    price: "",
+    sale_price: "",
+    description: "",
+    category_id: "",
+    subcategory_id: "",
+    status: "draft", // draft or published
+    available_sizes: [],
+    size_chart: "",
+    sku: "",
+    barcode: "",
+    track_inventory: false,
+    stock: 0,
+    stock_status: "in_stock",
+    weight: "",
+    dimensions: "",
+    shipping_class: "standard",
+  });
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [activeInventoryTab, setActiveInventoryTab] = useState("pricing");
+
+  useEffect(() => {
+    fetchCategories();
+    if (isEditMode) {
+      fetchProductDetails();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (formData.category_id) {
+      fetchSubcategories(formData.category_id);
+    } else {
+      setSubcategories([]);
+    }
+  }, [formData.category_id]);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/category`);
+      setCategories(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchSubcategories = async (catId) => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/subcategory/${catId}`);
+      setSubcategories(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchProductDetails = async () => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/products?page=1&limit=1000`);
+      const product = res.data.products.find(p => p.id === parseInt(id));
+      if (product) {
+        setFormData({
+          name: product.name,
+          slug: product.slug,
+          price: product.price,
+          description: product.description || "",
+          category_id: product.category_id,
+          subcategory_id: product.subcategory_id || "",
+          status: product.status || "draft",
+          available_sizes: product.available_sizes ? JSON.parse(product.available_sizes) : [],
+          size_chart: product.size_chart || "",
+        });
+        if (product.image) setPreview(`${API_BASE_URL}${product.image.replace(/^\/?assets/, "/assets")}`);
+      }
+    } catch (err) {
+      console.error("Failed to fetch product details", err);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "name" && !isEditMode) {
+      setFormData(prev => ({ ...prev, slug: value.toLowerCase().replace(/\s+/g, '-') }));
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleGalleryChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      setGalleryImages(prev => [...prev, ...files]);
+      const newPreviews = files.map(file => URL.createObjectURL(file));
+      setGalleryPreviews(prev => [...prev, ...newPreviews]);
+    }
+  };
+
+  const removeGalleryImage = (index) => {
+    setGalleryImages(prev => prev.filter((_, i) => i !== index));
+    setGalleryPreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleDiscard = () => {
+    toastConfirm("Are you sure you want to discard changes?", () => {
+      navigate("/admin/products");
+    });
+  };
+
+  const handleSaveDraft = async () => {
+    await handleSubmit(null, "draft");
+  };
+
+  const handlePublish = async () => {
+    await handleSubmit(null, "published");
+  };
+
+  const handleSubmit = async (e, statusOverride) => {
+    if (e) e.preventDefault();
+    setLoading(true);
+
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "status") {
+        data.append(key, statusOverride || formData[key]);
+      } else if (key === "available_sizes") {
+        // Serialize array as JSON string
+        data.append(key, JSON.stringify(formData[key]));
+      } else {
+        data.append(key, formData[key]);
+      }
+    });
+    if (image) data.append("image", image);
+    if (galleryImages.length > 0) {
+      galleryImages.forEach(file => {
+        data.append("gallery_images", file);
+      });
+    }
+
+    try {
+      if (isEditMode) {
+        await axios.put(`${API_BASE_URL}/products/${id}`, data);
+        toastSuccess("Product updated successfully!");
+      } else {
+        await axios.post(`${API_BASE_URL}/products`, data);
+        toastSuccess("Product created successfully!");
+      }
+      setTimeout(() => navigate("/admin/products"), 1500);
+    } catch (err) {
+      console.error(err);
+      toastError(isEditMode ? "Failed to update product" : "Failed to create product");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Action Bar */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <span className="hover:text-[#2874f0] cursor-pointer" onClick={() => navigate("/admin/products")}>Products</span>
+              <ChevronRight size={16} />
+              <span className="text-gray-900 font-medium">{isEditMode ? "Edit product" : "Add a product"}</span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleDiscard}
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                Discard
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveDraft}
+                disabled={loading}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+              >
+                Save draft
+              </button>
+              <button
+                type="button"
+                onClick={handlePublish}
+                disabled={loading}
+                className="px-5 py-2 text-sm font-medium text-white bg-[#2874f0] rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+              >
+                {loading ? "Publishing..." : "Publish product"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Product Title */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-3">Product Title</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Write title here..."
+                className="w-full px-4 py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            {/* Product Description */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-3">Product Description</label>
+
+              {/* Simple Toolbar */}
+              <div className="flex items-center gap-1 mb-3 pb-3 border-b border-gray-200">
+                <button type="button" className="p-2 hover:bg-gray-100 rounded" title="Bold">
+                  <Bold size={16} className="text-gray-600" />
+                </button>
+                <button type="button" className="p-2 hover:bg-gray-100 rounded" title="Italic">
+                  <Italic size={16} className="text-gray-600" />
+                </button>
+                <button type="button" className="p-2 hover:bg-gray-100 rounded" title="Underline">
+                  <Underline size={16} className="text-gray-600" />
+                </button>
+                <div className="w-px h-6 bg-gray-300 mx-1"></div>
+                <button type="button" className="p-2 hover:bg-gray-100 rounded" title="Bullet List">
+                  <List size={16} className="text-gray-600" />
+                </button>
+                <button type="button" className="p-2 hover:bg-gray-100 rounded" title="Numbered List">
+                  <ListOrdered size={16} className="text-gray-600" />
+                </button>
+                <div className="w-px h-6 bg-gray-300 mx-1"></div>
+                <button type="button" className="p-2 hover:bg-gray-100 rounded" title="Insert Link">
+                  <LinkIcon size={16} className="text-gray-600" />
+                </button>
+              </div>
+
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Write a description here..."
+                className="w-full px-4 py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                rows="8"
+              ></textarea>
+            </div>
+
+            {/* Display Images */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-3">Main product image</label>
+
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  id="image-upload"
+                />
+                <label htmlFor="image-upload" className="cursor-pointer">
+                  {preview ? (
+                    <div className="relative inline-block">
+                      <img src={preview} alt="Preview" className="max-h-48 rounded-lg" />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setImage(null);
+                          setPreview(null);
+                        }}
+                        className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <Upload size={32} className="text-gray-400" />
+                      <p className="text-sm text-gray-600">
+                        Drag your photo here or{" "}
+                        <span className="text-blue-600 font-medium">Browse from device</span>
+                      </p>
+                    </div>
+                  )}
+                </label>
+              </div>
+            </div>
+
+            {/* Gallery Images */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-3">Product Gallery</label>
+
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors cursor-pointer mb-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleGalleryChange}
+                  className="hidden"
+                  id="gallery-upload"
+                />
+                <label htmlFor="gallery-upload" className="cursor-pointer w-full h-full block">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="bg-blue-50 p-3 rounded-full">
+                      <List size={24} className="text-blue-600" />
+                    </div>
+                    <p className="text-sm text-gray-600">
+                      <span className="text-blue-600 font-medium">Add images</span> to gallery
+                    </p>
+                  </div>
+                </label>
+              </div>
+
+              {galleryPreviews.length > 0 && (
+                <div className="grid grid-cols-4 gap-4">
+                  {galleryPreviews.map((src, idx) => (
+                    <div key={idx} className="relative group border rounded-lg overflow-hidden h-24">
+                      <img src={src} alt={`Gallery ${idx}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removeGalleryImage(idx)}
+                        className="absolute top-1 right-1 p-1 bg-white text-red-500 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column - Sidebar */}
+          <div className="space-y-6">
+            {/* Organize Section */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">Organize</h3>
+
+              <div className="space-y-4">
+                {/* Category */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-sm font-medium text-gray-700">Category</label>
+                    <button type="button" className="text-xs text-blue-600 hover:underline">
+                      Add new category
+                    </button>
+                  </div>
+                  <select
+                    name="category_id"
+                    value={formData.category_id}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  >
+                    <option value="">Select category</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Subcategory/Vendor */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-sm font-medium text-gray-700">Subcategory</label>
+                    <button type="button" className="text-xs text-blue-600 hover:underline">
+                      Add new subcategory
+                    </button>
+                  </div>
+                  <select
+                    name="subcategory_id"
+                    value={formData.subcategory_id}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={!formData.category_id}
+                  >
+                    <option value="">Select subcategory</option>
+                    {(() => {
+                      const groups = subcategories.filter(s => !s.parent_id);
+                      return groups.map(group => {
+                        const children = subcategories.filter(s => s.parent_id === group.id);
+                        if (children.length === 0) {
+                          return <option key={group.id} value={group.id}>{group.name}</option>;
+                        }
+                        return (
+                          <optgroup key={group.id} label={group.name}>
+                            {children.map(child => (
+                              <option key={child.id} value={child.id}>
+                                {child.name}
+                              </option>
+                            ))}
+                          </optgroup>
+                        );
+                      });
+                    })()}
+                  </select>
+                </div>
+
+                {/* Price */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">₹</span>
+                    <input
+                      type="number"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange}
+                      placeholder="0.00"
+                      className="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Slug */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Product Slug</label>
+                  <input
+                    type="text"
+                    name="slug"
+                    value={formData.slug}
+                    onChange={handleChange}
+                    placeholder="product-slug"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Auto-generated from title</p>
+                </div>
+
+                {/* Size Selection (for clothing) */}
+                <div className="border-t pt-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Product Sizes</label>
+                  <p className="text-xs text-gray-500 mb-3">Select available sizes for clothing items</p>
+
+                  <div className="flex flex-wrap gap-2">
+                    {['S', 'M', 'L', 'XL', 'XXL', 'XXXL'].map(size => (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => {
+                          setFormData(prev => ({
+                            ...prev,
+                            available_sizes: prev.available_sizes.includes(size)
+                              ? prev.available_sizes.filter(s => s !== size)
+                              : [...prev.available_sizes, size]
+                          }));
+                        }}
+                        className={`px-4 py-2 text-sm font-medium rounded-lg border transition-colors ${formData.available_sizes.includes(size)
+                          ? 'bg-blue-600 text-white border-blue-600'
+                          : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500'
+                          }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+
+                  {formData.available_sizes.length > 0 && (
+                    <p className="text-xs text-green-600 mt-2">
+                      Selected: {formData.available_sizes.join(', ')}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

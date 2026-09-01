@@ -1,0 +1,46 @@
+.home {
+  padding: 20px 0px 20px 0px;
+  background-color: #f1f3f6;
+}
+
+.home-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.home-section h2 {
+  color: #dc3545;
+  margin-bottom: 10px;
+}
+
+/* Ensure equal height for product cards in sliders */
+.product-row-slider .slick-track {
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+.product-row-slider .slick-slide {
+  height: auto !important;
+  display: flex !important;
+}
+
+.product-row-slider .slick-slide > div {
+  width: 100%;
+  display: flex !important;
+  flex: 1;
+}
+
+/* Ensure slides don't overflow on mobile */
+@media (max-width: 640px) {
+  .product-row-slider .slick-list {
+    overflow: hidden;
+  }
+  
+  .product-row-slider .slick-slide {
+    min-width: 0 !important;
+  }
+}

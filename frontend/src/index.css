@@ -1,0 +1,331 @@
+/* Google Fonts - Outfit (Modern Sans-Serif Font) */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  /* Root Font Settings */
+  :root {
+    --font-family: 'Outfit', sans-serif;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+  }
+.line-through {
+    text-decoration-line: line-through !important;
+}
+  /* Global Reset */
+  *,
+  *::before,
+  *::after {
+    font-family: var(--font-family);
+    text-decoration: none !important;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FFFFFF;
+    color: #111111;
+    line-height: 1.5;
+  }
+
+  /* Typography - Headings */
+  h1,
+  .h1 {
+    font-size: 2.25rem;
+    /* 36px */
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: #1a202c;
+  }
+
+  h2,
+  .h2 {
+    font-size: 1.875rem;
+    /* 30px */
+    font-weight: var(--font-weight-bold);
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    color: #1a202c;
+  }
+
+  h3,
+  .h3 {
+    font-size: 1.5rem;
+    /* 24px */
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    color: #1a202c;
+  }
+
+  h4,
+  .h4 {
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: #1a202c;
+  }
+
+  h5,
+  .h5 {
+    font-size: 1.125rem;
+    /* 18px */
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+    color: #1a202c;
+  }
+
+  h6,
+  .h6 {
+    font-size: 1rem;
+    /* 16px */
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+    color: #1a202c;
+  }
+
+  /* Typography - Body Text */
+  p {
+    font-size: 0.9375rem;
+    /* 15px */
+    font-weight: var(--font-weight-regular);
+    line-height: 1.6;
+    color: #4a5568;
+  }
+
+  small,
+  .small {
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: var(--font-weight-regular);
+  }
+
+  .text-xs {
+    font-size: 0.75rem;
+    /* 12px */
+  }
+
+  /* Typography - UI Elements */
+  label {
+    font-size: 0.875rem;
+    /* 14px */
+    font-weight: var(--font-weight-medium);
+    color: #4a5568;
+  }
+
+  button {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer !important;
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: var(--font-family);
+    font-size: 0.9375rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer !important;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  /* Code */
+  code,
+  pre {
+    font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+}
+
+/* Utility Classes for Typography */
+@layer utilities {
+  .font-light {
+    font-weight: 300;
+  }
+
+  .font-regular {
+    font-weight: 400;
+  }
+
+  .font-medium {
+    font-weight: 500;
+  }
+
+  .font-semibold {
+    font-weight: 600;
+  }
+
+  .font-bold {
+    font-weight: 700;
+  }
+
+  .font-extrabold {
+    font-weight: 800;
+  }
+
+  /* Text Size Utilities */
+  .text-display {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .text-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .text-body {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  .text-caption {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .text-overline {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Custom Range Slider Styles */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  border-color: #dc3545;
+  box-shadow: 0 2px 10px rgba(40, 116, 240, 0.35);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  border-color: #dc3545;
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  border-color: #dc3545;
+  box-shadow: 0 2px 10px rgba(40, 116, 240, 0.35);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 100%;
+  background: transparent;
+}
+
+/* Utility to hide scrollbar but allow scrolling */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Group Deal Modal */
+.group-deal-modal {
+  border: none;
+  border-radius: 1rem;
+  padding: 0;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  color: #fff;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.group-deal-modal::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* Pulse animation for Live badge */
+@keyframes pulseGlow {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s infinite;
+}

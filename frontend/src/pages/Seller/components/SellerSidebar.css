@@ -1,0 +1,33 @@
+/* Seller Sidebar Styles - Premium White Theme */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+/* Transitions */
+.transition-all {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar NavLink Hover/Active */
+.seller-dashboard-root .nav-link-active {
+    background-color: #ea580c !important;
+    /* Orange 600 */
+    color: white !important;
+}
+
+/* Sidebar Logo Gradient */
+.seller-logo-text {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
