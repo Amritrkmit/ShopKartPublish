@@ -143,12 +143,12 @@ app.use("/users", authRoutes);
 app.use("/api/auth", authOtpRoutes);
 app.use("/orders", orderRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/slider", blockDirectAccess, sliderRoutes);
-app.use("/api/slider", blockDirectAccess, sliderRoutes);
-app.use("/category", blockDirectAccess, categoryRoutes);
-app.use("/api/category", blockDirectAccess, categoryRoutes);
-app.use("/subcategory", blockDirectAccess, subcategoryRoutes);
-app.use("/api/subcategory", blockDirectAccess, subcategoryRoutes);
+app.use("/slider", sliderRoutes);
+app.use("/api/slider", sliderRoutes);
+app.use("/category", categoryRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/subcategory", subcategoryRoutes);
+app.use("/api/subcategory", subcategoryRoutes);
 app.use("/api/attributes", attributeRoutes);
 app.use("/api/products", productRoutes);
 app.use("/products", productRoutes);
@@ -171,10 +171,11 @@ app.use("/api/alerts", alertRoutes); // Added
 app.use("/api/brands", brandRoutes); // Added
 app.use("/api/promos", promosRoutes); // Added
 app.use("/api/collections", collectionRoutes); // Added
-// Seller & Merchant Routes (with direct access protection)
-app.use("/api/sellers", blockDirectAccess, sellerRoutes);    // Onboarding / Auth
-app.use("/api/seller", blockDirectAccess, sellerDashboardRoutes);  // Dashboard APIs
-app.use("/api/shops", blockDirectAccess, shopRoutes);
+
+// Seller & Merchant Routes
+app.use("/api/sellers", sellerRoutes);    // Onboarding / Auth
+app.use("/api/seller", sellerDashboardRoutes);  // Dashboard APIs
+app.use("/api/shops", shopRoutes);
 
 // Compatibility fallback for non-API prefixed routes (deprecated but kept for stability)
 app.use("/sellers", sellerRoutes);
@@ -188,10 +189,10 @@ app.use("/api/sitemap", sitemapRoutes); // Admin access (generate)
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/geocoding", geocodingRoutes); // Geocoding proxy (public)
 
-// Admin JWT-protected routes (with direct access protection)
-app.use("/admin", blockDirectAccess, adminRoutes);
-app.use("/admin", blockDirectAccess, adminNotificationsRoutes);
-app.use("/api/hadoop", blockDirectAccess, hadoopRoutes); // Hadoop management API (admin only)
+// Admin Routes (Kept existing structure)
+app.use("/admin", adminRoutes);
+app.use("/admin", adminNotificationsRoutes);
+app.use("/api/hadoop", hadoopRoutes); // Hadoop management API (admin only)
 
 // ------------------- Scheduler -------------------
 // Auto-generate Sitemap every 15 minutes
