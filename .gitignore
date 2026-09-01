@@ -8,7 +8,8 @@ node_modules/
 .env.local
 .env.development.local
 .env.test.local
-.env.production.local
+!.env.production
+!frontend/.env.production
 
 # SQL Dumps (keep repository lightweight)
 *.sql
