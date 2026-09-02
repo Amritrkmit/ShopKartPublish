@@ -6,8 +6,9 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
         try {
+            const token = localStorage.getItem("userToken");
             const saved = localStorage.getItem("user");
-            return saved ? JSON.parse(saved) : null;
+            return (token && saved) ? JSON.parse(saved) : null;
         } catch (e) {
             return null;
         }
@@ -25,7 +26,6 @@ export const AuthProvider = ({ children }) => {
         const authPromises = [];
 
         // 1. Fetch Customer Profile
-        // Try localStorage token first (Header Auth) for reliability on localhost
         const storedToken = localStorage.getItem("userToken");
 
         if (storedToken) {
@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
                 })
                     .then(res => {
                         setUser(res.data);
-                        // Update cache
                         localStorage.setItem("user", JSON.stringify(res.data));
                     })
                     .catch((err) => {
@@ -47,23 +46,9 @@ export const AuthProvider = ({ children }) => {
                     })
             );
         } else {
-            // Fallback to Cookie Auth (if token missing but cookie exists)
-            authPromises.push(
-                axios.get(`${BASE_URL}/users/me`, { withCredentials: true })
-                    .then(res => {
-                        setUser(res.data);
-                        localStorage.setItem("user", JSON.stringify(res.data));
-                    })
-                    .catch((err) => {
-                        // Strict Check: Only clear if explicitly unauthorized
-                        if (err.response && (err.response.status === 401 || err.response.status === 403)) {
-                            setUser(null);
-                            localStorage.removeItem("user");
-                        } else {
-                            console.warn("[Auth] Cookie check failed but keeping optimistic session", err);
-                        }
-                    })
-            );
+            // No token present — clear user to avoid ghost session
+            localStorage.removeItem("user");
+            setUser(null);
         }
 
         // 2. Fetch Seller Profile (Keep hybrid or move to cookie? Prompt implied whole project but seller auth is separate system maybe?
@@ -113,10 +98,19 @@ export const AuthProvider = ({ children }) => {
         checkAuth();
     }, []);
 
-    const loginUser = (data) => {
-        // Handles both { user, token } or just user data
-        const userData = data.user || data;
-        const token = data.token;
+    const loginUser = (data, tokenParam) => {
+        // Handles both loginUser(user, token) and loginUser({ user, token })
+        let userData = data;
+        let token = tokenParam;
+
+        if (data && typeof data === 'object') {
+            if (data.user) {
+                userData = data.user;
+                token = token || data.token;
+            } else if (data.token) {
+                token = token || data.token;
+            }
+        }
 
         // Strict Isolation
         localStorage.removeItem("sellerToken");
@@ -126,7 +120,9 @@ export const AuthProvider = ({ children }) => {
         setAdmin(null);
 
         // Update State & UI Storage
-        localStorage.setItem("user", JSON.stringify(userData));
+        if (userData) {
+            localStorage.setItem("user", JSON.stringify(userData));
+        }
         if (token) {
             localStorage.setItem("userToken", token);
         }
