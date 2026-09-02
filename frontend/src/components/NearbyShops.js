@@ -87,13 +87,13 @@ const NearbyShops = () => {
                         className="flex-shrink-0 w-64 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden"
                     >
                         <div className="relative h-32 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
-                            {shop.logo_url ? (
-                                <img
-                                    src={`${API_BASE_URL.replace('/api', '')}${shop.logo_url}`}
-                                    alt={shop.name}
-                                    className="w-20 h-20 object-contain rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-500 bg-white p-2"
-                                    onError={(e) => { e.target.style.display = 'none'; }}
-                                />
+                                {shop.logo_url ? (
+                                    <img
+                                        src={shop.logo_url.startsWith('http') ? shop.logo_url : `${(API_BASE_URL || '').replace('/api', '')}${shop.logo_url.startsWith('/') ? '' : '/'}${shop.logo_url}`}
+                                        alt={shop.name}
+                                        className="w-20 h-20 object-contain rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-500 bg-white p-2"
+                                        onError={(e) => { e.target.style.display = 'none'; }}
+                                    />
                             ) : (
                                 <div className="w-20 h-20 bg-white rounded-xl shadow-lg flex items-center justify-center text-brand-orange text-2xl font-bold">
                                     {(shop.name || "S").charAt(0)}

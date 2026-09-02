@@ -155,7 +155,7 @@ const ShopsListingPage = () => {
                                 <div className="relative h-40 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-6">
                                     {shop.logo_url ? (
                                         <img
-                                            src={`${API_BASE_URL.replace('/api', '')}${shop.logo_url}`}
+                                            src={shop.logo_url.startsWith('http') ? shop.logo_url : `${(API_BASE_URL || '').replace('/api', '')}${shop.logo_url.startsWith('/') ? '' : '/'}${shop.logo_url}`}
                                             alt={shop.name}
                                             className="max-h-24 max-w-full object-contain rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-500 bg-white p-3"
                                             onError={(e) => { e.target.style.display = 'none'; }}

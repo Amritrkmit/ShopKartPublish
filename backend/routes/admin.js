@@ -6,9 +6,8 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer"); // for profile picture upload
 const requireAdmin = require("../middlewares/requireAdmin");
 
-require("dotenv").config();
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
+const JWT_SECRET = process.env.JWT_SECRET || "shopkart_super_secret_jwt_key_2026";
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
 
 

@@ -363,7 +363,7 @@ const ShopPage = () => {
                             <div className="flex items-center gap-4">
                                 <div className="w-16 h-16 rounded shadow-sm border border-gray-100 flex-shrink-0 bg-white p-1">
                                     {shop.logo_url ? (
-                                        <img src={`${API_BASE_URL.replace('/api', '')}${shop.logo_url}`} onError={(e) => { e.target.style.display = 'none' }} alt={shop.name} className="w-full h-full object-contain" />
+                                        <img src={shop.logo_url.startsWith('http') ? shop.logo_url : `${(API_BASE_URL || '').replace('/api', '')}${shop.logo_url.startsWith('/') ? '' : '/'}${shop.logo_url}`} onError={(e) => { e.target.style.display = 'none' }} alt={shop.name} className="w-full h-full object-contain" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 font-bold text-xl">{shop.name.charAt(0)}</div>
                                     )}
