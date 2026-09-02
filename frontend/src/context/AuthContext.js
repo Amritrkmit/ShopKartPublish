@@ -77,14 +77,20 @@ export const AuthProvider = ({ children }) => {
             );
         }
 
-        // 3. Admin Auth (Already uses cookies partially)
+        // 3. Admin Auth
+        const adminToken = localStorage.getItem("adminToken");
         const adminUser = localStorage.getItem("adminUser");
-        if (adminUser) {
+        if (adminUser || adminToken) {
+            const headers = adminToken ? { Authorization: `Bearer ${adminToken}` } : {};
             authPromises.push(
-                axios.get(`${BASE_URL}/admin/profile`, { withCredentials: true })
-                    .then(res => { setAdmin(res.data); })
+                axios.get(`${BASE_URL}/admin/profile`, { headers, withCredentials: true })
+                    .then(res => {
+                        setAdmin(res.data);
+                        localStorage.setItem("adminUser", JSON.stringify(res.data));
+                    })
                     .catch(() => {
                         localStorage.removeItem("adminUser");
+                        localStorage.removeItem("adminToken");
                         setAdmin(null);
                     })
             );
@@ -131,31 +137,45 @@ export const AuthProvider = ({ children }) => {
 
     const loginSeller = (sellerData, token) => {
         // Strict Isolation: Clear other roles on seller login
-        // Call logout endpoint for user just in case
         axios.post(`${process.env.REACT_APP_API_BASE_URL}/users/logout`, {}, { withCredentials: true }).catch(() => { });
 
-        localStorage.removeItem("user"); // Removed token item
+        localStorage.removeItem("user");
+        localStorage.removeItem("userToken");
         localStorage.removeItem("adminUser");
+        localStorage.removeItem("adminToken");
         setUser(null);
         setAdmin(null);
 
-        localStorage.setItem("sellerToken", token);
+        if (token) {
+            localStorage.setItem("sellerToken", token);
+        }
         localStorage.setItem("seller", JSON.stringify(sellerData));
         setSeller(sellerData);
     };
 
-    const loginAdmin = (adminData) => {
+    const loginAdmin = (adminData, tokenParam) => {
+        let admin = adminData;
+        let token = tokenParam;
+        if (adminData && adminData.token) {
+            token = token || adminData.token;
+            admin = adminData.user || adminData;
+        }
+
         // Call logout endpoint for user just in case
         axios.post(`${process.env.REACT_APP_API_BASE_URL}/users/logout`, {}, { withCredentials: true }).catch(() => { });
 
         localStorage.removeItem("user");
+        localStorage.removeItem("userToken");
         localStorage.removeItem("sellerToken");
         localStorage.removeItem("seller");
         setUser(null);
         setSeller(null);
 
-        localStorage.setItem("adminUser", JSON.stringify(adminData));
-        setAdmin(adminData);
+        localStorage.setItem("adminUser", JSON.stringify(admin));
+        if (token) {
+            localStorage.setItem("adminToken", token);
+        }
+        setAdmin(admin);
     };
 
     const logout = (type = 'user') => {
@@ -172,10 +192,12 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("sellerToken");
             localStorage.removeItem("seller");
             setSeller(null);
+            axios.post(`${API_BASE_URL}/seller/logout`, {}, { withCredentials: true }).catch(() => { });
         } else if (type === 'admin') {
             localStorage.removeItem("adminUser");
+            localStorage.removeItem("adminToken");
             setAdmin(null);
-            axios.post(`${API_BASE_URL}/admin/logout`, {}, { withCredentials: true });
+            axios.post(`${API_BASE_URL}/admin/logout`, {}, { withCredentials: true }).catch(() => { });
         } else if (type === 'all') {
             localStorage.removeItem("user");
             localStorage.removeItem("sellerToken");

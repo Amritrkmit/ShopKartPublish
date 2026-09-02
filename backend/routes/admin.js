@@ -67,6 +67,7 @@ router.post("/login", (req, res) => {
       })
       .json({
         message: "Login successful",
+        token,
         user: {
           id: admin.id,
           email: admin.email,

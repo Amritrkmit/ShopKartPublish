@@ -4,10 +4,13 @@ const { JWT_SECRET } = require("../utils/jwt");
 
 async function requireAdmin(req, res, next) {
     let token = req.cookies?.adminToken;
-    // REMOVED: Fallback to Authorization header to prevent user tokens from bleeding into admin context
-    // if (!token && req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
-    //     token = req.headers.authorization.split(" ")[1];
-    // }
+    const authHeader = req.headers.authorization;
+    if (!token && authHeader && authHeader.startsWith("Bearer ")) {
+        const extracted = authHeader.split(" ")[1];
+        if (extracted && extracted !== 'null' && extracted !== 'undefined') {
+            token = extracted;
+        }
+    }
 
     if (!token) return res.status(401).json({ message: "Unauthorized: No admin token" });
 

@@ -25,7 +25,10 @@ const AdminLogin = () => {
             );
 
             if (res.data.user) {
-                loginAdmin(res.data.user);
+                if (res.data.token) {
+                    localStorage.setItem("adminToken", res.data.token);
+                }
+                loginAdmin(res.data.user, res.data.token);
                 toastSuccess(res.data.message || "Admin access granted");
                 navigate("/admin/dashboard/");
             } else {

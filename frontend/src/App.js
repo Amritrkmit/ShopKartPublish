@@ -150,11 +150,21 @@ function App() {
     // Global Axios Interceptor for 401 Unauthorized
     // This handles cases where the token is expired or invalid
 
-    // 1. Request Interceptor: Attach Token & Enable Cookies
+    // 1. Request Interceptor: Attach Role-Appropriate Token & Enable Cookies
     const requestInterceptor = axios.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem("userToken");
-        if (token) {
+        const url = config.url || "";
+        let token = null;
+
+        if (url.includes('/admin')) {
+          token = localStorage.getItem("adminToken");
+        } else if (url.includes('/seller')) {
+          token = localStorage.getItem("sellerToken");
+        } else {
+          token = localStorage.getItem("userToken");
+        }
+
+        if (token && !config.headers.Authorization) {
           config.headers.Authorization = `Bearer ${token}`;
         }
         config.withCredentials = true; // Always send cookies for hybrid auth
@@ -168,7 +178,7 @@ function App() {
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 401) {
-          const url = error.config.url;
+          const url = error.config?.url || "";
           const isLogin = url.includes('/login');
           const isRegister = url.includes('/register');
           const isVerify = url.includes('/verify-otp');
@@ -176,17 +186,16 @@ function App() {
           if (!isLogin && !isRegister && !isVerify) {
             console.warn("Session unauthorized. Clearing relevant session.");
 
-            if (url.includes('/seller/')) {
+            if (url.includes('/seller')) {
               localStorage.removeItem("sellerToken");
-            } else if (url.includes('/admin/')) {
+              localStorage.removeItem("seller");
+            } else if (url.includes('/admin')) {
+              localStorage.removeItem("adminToken");
               localStorage.removeItem("adminUser");
             } else {
-              // Default to user session for other 401s
               localStorage.removeItem("userToken");
+              localStorage.removeItem("user");
             }
-
-            // We don't dispatch logout all anymore, we let Context handle it via refresh or specific events
-            // but for now, just removing the token is enough for the next refresh/check.
           }
         }
         return Promise.reject(error);
