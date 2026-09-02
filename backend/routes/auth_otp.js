@@ -95,10 +95,11 @@ router.post("/verify-otp", async (req, res) => {
             return res.status(400).json({ message: "Invalid or Expired OTP" });
         }
 
+        const { JWT_SECRET } = require("../utils/jwt");
         // Generate a temporary Reset Token
         const token = jwt.sign(
             { email, role, type: 'password_reset' },
-            process.env.JWT_SECRET,
+            JWT_SECRET,
             { expiresIn: '15m' }
         );
 
@@ -126,8 +127,8 @@ router.post("/reset-password", async (req, res) => {
     }
 
     try {
-        // Verify Token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const { JWT_SECRET } = require("../utils/jwt");
+        const decoded = jwt.verify(token, JWT_SECRET);
 
         // Ensure token details match request (optional extra security)
         if (email && (decoded.email !== email || decoded.role !== role)) {

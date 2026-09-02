@@ -561,7 +561,8 @@ router.get("/", async (req, res) => { // Async handler
 
         if (adminToken) {
           try {
-            jwt.verify(adminToken, process.env.JWT_SECRET);
+            const { JWT_SECRET } = require("../utils/jwt");
+            jwt.verify(adminToken, JWT_SECRET);
             isAdmin = true;
           } catch (e) {
             console.error("JWT Verify Error in Products Admin Route:", e.message);

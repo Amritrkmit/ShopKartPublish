@@ -131,8 +131,9 @@ router.post("/share", async (req, res) => {
         if (authHeader && authHeader.startsWith("Bearer ")) {
             const jwt = require("jsonwebtoken");
             const token = authHeader.split(" ")[1];
+            const { JWT_SECRET } = require("../utils/jwt");
             try {
-                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                const decoded = jwt.verify(token, JWT_SECRET);
                 userId = decoded.id;
             } catch (e) { /* invalid token, treat as guest */ }
         }

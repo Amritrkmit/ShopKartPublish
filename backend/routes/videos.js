@@ -35,7 +35,8 @@ router.get('/', async (req, res) => {
         if (authHeader && authHeader.startsWith("Bearer ")) {
             const token = authHeader.split(" ")[1];
             try {
-                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                const { JWT_SECRET } = require("../utils/jwt");
+                const decoded = jwt.verify(token, JWT_SECRET);
                 userId = decoded.id;
             } catch (err) { /* ignore invalid token for public feed */ }
         }

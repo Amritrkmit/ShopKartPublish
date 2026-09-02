@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const db = require("../db");
-require("dotenv").config();
-const JWT_SECRET = process.env.JWT_SECRET;
+const { JWT_SECRET } = require("../utils/jwt");
 
 async function requireAdmin(req, res, next) {
     let token = req.cookies?.adminToken;
