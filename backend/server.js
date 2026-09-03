@@ -66,11 +66,12 @@ const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (mobile apps, curl, etc)
     if (!origin) return callback(null, true);
-    // Allow localhost, Vercel, Netlify, and any configured FRONTEND_URL
+    // Allow localhost, Vercel, Netlify, Render, and any configured FRONTEND_URL
     if (
       origin.startsWith("http://localhost") ||
       origin.endsWith(".vercel.app") ||
       origin.endsWith(".netlify.app") ||
+      origin.endsWith(".onrender.com") ||
       origin === process.env.FRONTEND_URL
     ) {
       return callback(null, true);
