@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const SitemapPage = () => {
     const [data, setData] = useState(null);

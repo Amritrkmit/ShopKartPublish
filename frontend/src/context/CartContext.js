@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContext";
 
 export const CartContext = createContext();
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);

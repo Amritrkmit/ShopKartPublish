@@ -61,13 +61,21 @@ router.post("/forgot-password", async (req, res) => {
         );
 
         // Send Email
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: "Reset Password OTP - ShopKart",
-            text: `Your OTP for resetting password is ${otp}. It is valid for 10 minutes.`,
-            html: `<p>Your OTP for resetting password is <b>${otp}</b>.</p><p>It is valid for 10 minutes.</p>`
-        });
+        try {
+            if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+                await transporter.sendMail({
+                    from: process.env.EMAIL_USER,
+                    to: email,
+                    subject: "Reset Password OTP - ShopKart",
+                    text: `Your OTP for resetting password is ${otp}. It is valid for 10 minutes.`,
+                    html: `<p>Your OTP for resetting password is <b>${otp}</b>.</p><p>It is valid for 10 minutes.</p>`
+                });
+            } else {
+                console.log(`⚠️ SMTP credentials not set. Reset OTP for ${email}: ${otp}`);
+            }
+        } catch (mailErr) {
+            console.error("❌ Nodemailer Error:", mailErr.message);
+        }
 
         res.json({ message: "OTP sent to your email." });
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toastError, axiosErrorMessage } from '../../utils/toast';
 import { Search, ChevronDown, RefreshCw } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const HeatmapExplorer = () => {
     const [searchTerm, setSearchTerm] = useState("");

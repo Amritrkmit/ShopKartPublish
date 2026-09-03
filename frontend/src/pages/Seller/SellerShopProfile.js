@@ -4,7 +4,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import { Store, MapPin, Phone, Mail, Save, Upload, ChevronRight, Info } from "lucide-react";
 import { toastSuccess, toastError } from "../../utils/toast";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + "/api";
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "") + "/api";
 
 const SellerShopProfile = () => {
     const { seller, setSeller } = useOutletContext();
@@ -27,7 +27,7 @@ const SellerShopProfile = () => {
             });
             setShop(res.data || {});
             if (res.data.logo_url) {
-                setLogoPreview(`${process.env.REACT_APP_API_BASE_URL}${res.data.logo_url}`);
+                setLogoPreview(`${process.env.REACT_APP_API_BASE_URL || ""}${res.data.logo_url}`);
             }
         } catch (err) {
             console.error("Error fetching shop profile:", err);

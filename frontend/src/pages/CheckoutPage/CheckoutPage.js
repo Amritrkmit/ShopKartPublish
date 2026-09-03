@@ -12,7 +12,7 @@ import RemoveItemModal from "../../components/RemoveItemModal";
 import { encryptId } from "../../utils/secureId";
 import { useAuth } from "../../context/AuthContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 const stripePromise = loadStripe("pk_test_51S7GZlJvCIY9aPOK467vtASyt30CtaOJJpIj30Gwwssn0EqqhfXVnjUbIFlmpMYTIMgBjgTFjtAkkOsbSn8XV3rI00uAjFMyNW");
 
 // --- Helper Components ---

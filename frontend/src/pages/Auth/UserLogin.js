@@ -3,6 +3,7 @@ import axios from "axios";
 import { toastSuccess, toastError, axiosErrorMessage } from "../../utils/toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { API_BASE_URL } from "../../config";
 
 
 
@@ -24,9 +25,7 @@ const UserLogin = () => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
-            // Using base URL without /api because /users/login is registered at the top level in some server.js versions
-            // but let's be consistent with common patterns. Backend uses app.use('/users', userRoutes) or similar.
-            const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL || ""}/users/login`, { email, password }, { withCredentials: true });
+            const res = await axios.post(`${API_BASE_URL}/users/login`, { email, password }, { withCredentials: true });
 
             if (res.data.token) {
                 localStorage.setItem("userToken", res.data.token);

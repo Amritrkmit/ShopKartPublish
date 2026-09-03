@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const AnalyticsTracker = () => {
     const location = useLocation();
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+    const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
     useEffect(() => {
         // Check if admin

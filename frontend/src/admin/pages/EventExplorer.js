@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { Activity, RefreshCw, Eye, X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const EventExplorer = () => {
     const [events, setEvents] = useState([]);

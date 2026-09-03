@@ -20,7 +20,7 @@ const AlertManager = () => {
 
     const fetchAlerts = useCallback(async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/alerts/admin/all`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/alerts/admin/all`, {
                 withCredentials: true
             });
             setAlerts(res.data);
@@ -38,7 +38,7 @@ const AlertManager = () => {
 
     const handleCheckTriggers = async () => {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/alerts/admin/check-trigger`, {}, {
+            const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL || ""}/api/alerts/admin/check-trigger`, {}, {
                 withCredentials: true
             });
             toastSuccess(`Check complete. ${res.data.triggered} alerts triggered.`);

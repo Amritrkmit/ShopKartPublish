@@ -13,7 +13,7 @@ const AccountLayout = ({ children }) => {
     const [hasJoinedDeals, setHasJoinedDeals] = useState(false);
     const [pendingRewardsCount, setPendingRewardsCount] = useState(0);
 
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+    const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
     useEffect(() => {
         const fetchDeals = async () => {

@@ -9,7 +9,7 @@ const Coupons = () => {
     const [copiedCode, setCopiedCode] = useState(null);
 
     const [coupons, setCoupons] = useState([]);
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+    const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
     const fetchCoupons = useCallback(async () => {
         try {

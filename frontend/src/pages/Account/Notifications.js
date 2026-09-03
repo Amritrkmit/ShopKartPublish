@@ -3,7 +3,7 @@ import { Bell, Package, Tag, Info, Trash2, CheckCircle2, ChevronRight, Inbox } f
 import AccountLayout from './AccountLayout';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);

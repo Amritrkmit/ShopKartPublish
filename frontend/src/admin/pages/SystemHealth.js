@@ -9,7 +9,7 @@ const SystemHealth = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/system-health/dashboard`, {
+                const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/system-health/dashboard`, {
                     withCredentials: true
                 });
                 setStats(res.data);

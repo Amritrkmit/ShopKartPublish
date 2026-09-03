@@ -7,7 +7,7 @@ import { toastError, toastSuccess } from "../../utils/toast";
 import CancelOrderModal from "../../components/CancelOrderModal/CancelOrderModal";
 import generateInvoice from "../../utils/generateInvoice";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const DetailsOrderDetails = () => {
     const [searchParams] = useSearchParams();

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import AccountLayout from './AccountLayout';
 
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const MyGroupDeals = () => {
     const [deals, setDeals] = useState([]);

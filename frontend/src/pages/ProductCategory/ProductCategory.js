@@ -5,7 +5,7 @@ import ProductCard from "../../components/ProductCard";
 import Pagination from "../../components/Pagination";
 
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const ProductGrid = ({ searchTerm, sortBy, tags, onResultsUpdate, hideHeader = false }) => {
   // 🔹 Sidebar Filter State

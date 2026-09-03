@@ -137,7 +137,7 @@ export const AuthProvider = ({ children }) => {
 
     const loginSeller = (sellerData, token) => {
         // Strict Isolation: Clear other roles on seller login
-        axios.post(`${process.env.REACT_APP_API_BASE_URL}/users/logout`, {}, { withCredentials: true }).catch(() => { });
+        axios.post(`${process.env.REACT_APP_API_BASE_URL || ""}/users/logout`, {}, { withCredentials: true }).catch(() => { });
 
         localStorage.removeItem("user");
         localStorage.removeItem("userToken");
@@ -162,7 +162,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         // Call logout endpoint for user just in case
-        axios.post(`${process.env.REACT_APP_API_BASE_URL}/users/logout`, {}, { withCredentials: true }).catch(() => { });
+        axios.post(`${process.env.REACT_APP_API_BASE_URL || ""}/users/logout`, {}, { withCredentials: true }).catch(() => { });
 
         localStorage.removeItem("user");
         localStorage.removeItem("userToken");
@@ -179,7 +179,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = (type = 'user') => {
-        const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+        const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
         if (type === 'user') {
             localStorage.removeItem("user");

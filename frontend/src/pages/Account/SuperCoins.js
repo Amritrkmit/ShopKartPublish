@@ -4,7 +4,7 @@ import { Crown, ArrowUpRight, ArrowDownLeft, Clock, Info, Tag, Users } from 'luc
 import AccountLayout from '../Account/AccountLayout';
 import { parsePrice, formatPrice } from '../../utils/format';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const SuperCoins = () => {
     const [balance, setBalance] = useState(0);

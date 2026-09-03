@@ -4,7 +4,7 @@ import { Users, Timer, Zap } from 'lucide-react';
 import { toastSuccess } from '../../utils/toast';
 
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const GroupBuyWidget = ({ productId, onJoinSuccess }) => {
     const [deal, setDeal] = useState(null);

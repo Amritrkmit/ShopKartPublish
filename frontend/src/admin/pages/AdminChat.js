@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { Search, Phone, Video, MoreVertical, Send, Paperclip, Smile, CheckCheck, ArrowLeft } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 // Socket.IO setup
 const socket = io(API_BASE_URL, {

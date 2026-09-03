@@ -4,7 +4,7 @@ import { toastSuccess, toastError } from "../../utils/toast";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { Upload, X, Save, Plus, Trash2, ChevronDown, ChevronUp, Image as ImageIcon, Info, Pencil } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const CollectionManager = () => {
     const [collections, setCollections] = useState([]);

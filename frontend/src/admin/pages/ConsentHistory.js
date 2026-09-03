@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toastError } from '../../utils/toast';
 import { Eye, X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const ConsentHistory = () => {
     const [logs, setLogs] = useState([]);

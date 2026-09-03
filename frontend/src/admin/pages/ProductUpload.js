@@ -8,7 +8,7 @@ import InventorySection from "../components/InventorySection";
 import FeatureManager from "../components/FeatureManager";
 import { decryptId } from "../../utils/secureId";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export default function ProductUpload() {
   const { id } = useParams();

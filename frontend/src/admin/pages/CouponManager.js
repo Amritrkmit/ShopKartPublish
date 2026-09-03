@@ -4,7 +4,7 @@ import { toastSuccess, toastError, axiosErrorMessage } from '../../utils/toast';
 import { Tag, Plus, Trash2, Calendar, UserPlus, StopCircle, CheckCircle, Users, Edit } from 'lucide-react';
 import ConfirmationModal from '../../components/ConfirmationModal';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 // --- Sub-Components ---
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export default function HomeHighlights() {
     const [collections, setCollections] = useState([]);

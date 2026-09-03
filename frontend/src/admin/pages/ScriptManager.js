@@ -4,7 +4,7 @@ import { toastSuccess, toastError } from '../../utils/toast';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { Plus, Trash2, Edit2, ToggleLeft, ToggleRight, X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const ScriptManager = () => {
     const [scripts, setScripts] = useState([]);

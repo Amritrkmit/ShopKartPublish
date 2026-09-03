@@ -4,7 +4,7 @@ import { toastSuccess, toastError } from "../../utils/toast";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { Upload, X, Save, ExternalLink, Plus, Trash2, Download } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export default function PromoManager() {
     const [promos, setPromos] = useState([]);

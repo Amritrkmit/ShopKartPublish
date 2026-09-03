@@ -6,7 +6,7 @@ import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import AccountLayout from "../Account/AccountLayout";
 import { useAuth } from "../../context/AuthContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

@@ -7,7 +7,7 @@ import useWishlist from "../../hooks/useWishlist";
 import { generateWishlistProductUrl } from "../../utils/productUrl";
 import { useAuth } from "../../context/AuthContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);

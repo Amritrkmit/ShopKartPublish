@@ -3,7 +3,7 @@ import axios from "axios";
 import { formatPrice } from "../../utils/format";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 // Custom Tooltip Component
 const CustomTooltip = ({ active, payload }) => {

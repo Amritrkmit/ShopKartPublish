@@ -198,19 +198,18 @@ app.use("/admin", adminNotificationsRoutes);
 app.use("/api/hadoop", hadoopRoutes); // Hadoop management API (admin only)
 
 // ------------------- Scheduler -------------------
-// Auto-generate Sitemap every 15 minutes
-const SITEMAP_INTERVAL = 15 * 60 * 1000; // 15 minutes
+// Auto-generate Sitemap every 15 minutes (only in standalone Node mode)
+if (!process.env.VERCEL) {
+  const SITEMAP_INTERVAL = 15 * 60 * 1000; // 15 minutes
+  setInterval(() => {
+    console.log('⏰ Running scheduled sitemap generation...');
+    sitemapService.generateXML();
+  }, SITEMAP_INTERVAL);
 
-setInterval(() => {
-  console.log('⏰ Running scheduled sitemap generation...');
-  sitemapService.generateXML();
-}, SITEMAP_INTERVAL);
-
-// Initial Generation on startup (optional, but good)
-// Delay slightly to ensure DB connection
-setTimeout(() => {
-  sitemapService.generateXML();
-}, 5000);
+  setTimeout(() => {
+    sitemapService.generateXML();
+  }, 5000);
+}
 
 // ------------------- Socket.IO -------------------
 // ------------------- Socket.IO -------------------
@@ -323,18 +322,20 @@ app.use((err, req, res, next) => {
 });
 
 // ------------------- Start Server -------------------
-const PORT = parseInt(process.env.PORT || 6376, 10);
-
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-}).on("error", (err) => {
-  if (err.code === "EADDRINUSE") {
-    console.error(`❌ Port ${PORT} is already in use. Please kill the process running on this port.`);
-    process.exit(1);
-  } else {
-    console.error("❌ Server Error:", err);
-    throw err;
-  }
-});
+if (!process.env.VERCEL || require.main === module) {
+  const PORT = parseInt(process.env.PORT || 6376, 10);
+  server.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  }).on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`❌ Port ${PORT} is already in use. Please kill the process running on this port.`);
+      process.exit(1);
+    } else {
+      console.error("❌ Server Error:", err);
+      throw err;
+    }
+  });
+}
 
 module.exports = { app, server, io };
+

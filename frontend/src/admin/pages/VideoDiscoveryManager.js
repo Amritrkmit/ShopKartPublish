@@ -4,7 +4,7 @@ import { toastSuccess, toastError } from "../../utils/toast";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { Search, Plus, Trash2, ShoppingBag, Video, X, Upload, Pencil } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export default function VideoDiscoveryManager() {
     const [videos, setVideos] = useState([]);

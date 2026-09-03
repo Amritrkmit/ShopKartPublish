@@ -15,7 +15,7 @@ const CacheManagement = () => {
 
     const fetchStatus = async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/cache/status`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/cache/status`, {
                 withCredentials: true
             });
             setStatus(res.data);
@@ -34,7 +34,7 @@ const CacheManagement = () => {
 
         setLoading(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/cache/clear`, { type }, {
+            const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL || ""}/api/cache/clear`, { type }, {
                 withCredentials: true
             });
             toastSuccess(res.data.message);

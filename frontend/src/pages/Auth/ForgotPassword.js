@@ -3,6 +3,7 @@ import axios from "axios";
 import { toastSuccess, toastError, axiosErrorMessage } from "../../utils/toast";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Store, ShieldCheck, Mail, ArrowRight } from "lucide-react";
+import { API_BASE_URL } from "../../config";
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
 
         setIsLoading(true);
         try {
-            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/forgot-password`, { email, role });
+            await axios.post(`${API_BASE_URL}/api/auth/forgot-password`, { email, role });
             toastSuccess("OTP sent successfully to your email");
             navigate(`/verify-otp?email=${encodeURIComponent(email)}&role=${role}`);
         } catch (err) {

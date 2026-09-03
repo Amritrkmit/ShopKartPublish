@@ -4,7 +4,7 @@ import { Mail, Shield, User } from "lucide-react";
 import SearchBar from "../../components/SearchBar";
 import Pagination from "../../components/Pagination";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const AllUsers = () => {
     const [users, setUsers] = useState([]);

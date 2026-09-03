@@ -5,7 +5,7 @@ import SellerSidebar from "./SellerSidebar";
 import { Menu, Bell, User, Search, Grid3x3 } from "lucide-react";
 import "./SellerDesignSystem.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + "/api";
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "") + "/api";
 
 const SellerLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);

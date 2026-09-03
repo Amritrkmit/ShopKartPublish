@@ -5,7 +5,7 @@ import { Edit, Trash2, Plus } from "lucide-react";
 import { toastSuccess, toastError } from "../../utils/toast";
 import { useConfirmation } from "../../context/ConfirmationContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const CategoryList = () => {
     const [categories, setCategories] = useState([]);

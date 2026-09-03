@@ -5,7 +5,7 @@ import { toastSuccess, toastError } from "../../utils/toast";
 import { Trash2, Edit2, MapPin, Plus, Locate, Loader, Search } from "lucide-react";
 import { useConfirmation } from "../../context/ConfirmationContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const Addresses = () => {
     const [addresses, setAddresses] = useState([]);

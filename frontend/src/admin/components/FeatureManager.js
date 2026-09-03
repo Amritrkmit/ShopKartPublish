@@ -94,7 +94,7 @@ const FeatureManager = ({ features, onChange }) => {
                                         {feature.preview || feature.image ? (
                                             <>
                                                 <img
-                                                    src={feature.preview || (feature.image.startsWith('http') || feature.image.startsWith('/assets') ? (feature.image.startsWith('/assets') ? `${process.env.REACT_APP_API_BASE_URL}${feature.image}` : feature.image) : feature.image)}
+                                                    src={feature.preview || (feature.image.startsWith('http') || feature.image.startsWith('/assets') ? (feature.image.startsWith('/assets') ? `${process.env.REACT_APP_API_BASE_URL || ""}${feature.image}` : feature.image) : feature.image)}
                                                     alt={`Feature ${index + 1}`}
                                                     className="w-full h-full object-cover"
                                                 />

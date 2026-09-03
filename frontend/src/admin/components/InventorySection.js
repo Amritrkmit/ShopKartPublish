@@ -4,7 +4,7 @@ import { toastSuccess, toastError } from "../../utils/toast";
 import { useConfirmation } from "../../context/ConfirmationContext";
 import { Tag, Package, Truck, Globe, Sliders, Lock, ChevronRight, Info, X, Plus, Trash2, Settings, Type, List, CheckSquare } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const InventorySection = ({ formData, handleChange, setFormData, errors = {}, attributes = [], handleAttributeCheckbox, fetchAttributes }) => {
     const { confirm } = useConfirmation();

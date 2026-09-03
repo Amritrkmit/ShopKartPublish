@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { toastSuccess, toastError } from "../../../utils/toast";
 import ConfirmationModal from "../../../components/ConfirmationModal";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const SliderList = () => {
     const [sliders, setSliders] = useState([]);

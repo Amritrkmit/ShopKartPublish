@@ -3,6 +3,7 @@ import axios from "axios";
 import { toastSuccess, toastError, axiosErrorMessage } from "../../utils/toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Store, Lock, Check } from "lucide-react";
+import { API_BASE_URL } from "../../config";
 
 const ResetPassword = () => {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ const ResetPassword = () => {
 
         setIsLoading(true);
         try {
-            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/reset-password`, {
+            await axios.post(`${API_BASE_URL}/api/auth/reset-password`, {
                 token,
                 // Fallback for transition period or if token is missing but email/otp present
                 email,

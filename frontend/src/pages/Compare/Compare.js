@@ -6,7 +6,7 @@ import useCart from '../../hooks/useCart';
 import { useCompare } from '../../context/CompareContext';
 import { toastSuccess } from '../../utils/toast';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const Compare = () => {
     const [searchParams, setSearchParams] = useSearchParams();

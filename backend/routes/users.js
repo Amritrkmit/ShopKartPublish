@@ -55,15 +55,22 @@ router.post("/send-otp", async (req, res) => {
           if (err2) return res.status(500).json({ message: "Database error" });
 
           // Send email
-          await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: "Your OTP Code",
-            text: `Your OTP is ${otp}`,
-          });
+          try {
+            if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+              await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: email,
+                subject: "Your OTP Code",
+                text: `Your OTP is ${otp}`,
+              });
+            } else {
+              console.log(`⚠️ SMTP credentials not set. Generated OTP for ${email}: ${otp}`);
+            }
+          } catch (mailErr) {
+            console.error("❌ Nodemailer Error:", mailErr.message);
+          }
 
-
-          res.json({ message: "OTP sent to email", email });
+          res.json({ message: "OTP sent to email", email, otpDev: process.env.NODE_ENV !== 'production' ? otp : undefined });
         }
       );
     });

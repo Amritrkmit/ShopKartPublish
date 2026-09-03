@@ -36,7 +36,7 @@ const Analytics = () => {
 
     const fetchProductData = useCallback(async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/analytics/products?range=${salesRange}`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/analytics/products?range=${salesRange}`, {
                 withCredentials: true
             });
             setProductData(res.data);
@@ -47,7 +47,7 @@ const Analytics = () => {
 
     const fetchTrafficStats = useCallback(async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/analytics/stats`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/analytics/stats`, {
                 withCredentials: true
             });
             setTrafficStats(res.data);
@@ -59,7 +59,7 @@ const Analytics = () => {
 
     const fetchLocationStats = useCallback(async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/analytics/location?range=${salesRange}`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/analytics/location?range=${salesRange}`, {
                 withCredentials: true
             });
             setLocationData(res.data);
@@ -70,7 +70,7 @@ const Analytics = () => {
 
     const fetchSalesStats = useCallback(async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/analytics/sales?range=${salesRange}`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/analytics/sales?range=${salesRange}`, {
                 withCredentials: true
             });
             setSalesStats(res.data);
@@ -82,7 +82,7 @@ const Analytics = () => {
 
     const fetchFunnelData = useCallback(async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/analytics/funnel?range=${salesRange}`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL || ""}/api/analytics/funnel?range=${salesRange}`, {
                 withCredentials: true
             });
             setFunnelData(res.data);
@@ -105,7 +105,7 @@ const Analytics = () => {
 
     const confirmClearCache = async () => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/analytics/cache/clear`, {}, {
+            await axios.post(`${process.env.REACT_APP_API_BASE_URL || ""}/api/analytics/cache/clear`, {}, {
                 withCredentials: true
             });
             toastSuccess('Cache cleared successfully. Reloading data...');

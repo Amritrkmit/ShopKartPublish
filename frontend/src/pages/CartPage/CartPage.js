@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toastSuccess, toastError, axiosErrorMessage } from "../../utils/toast";
 import RemoveItemModal from "../../components/RemoveItemModal";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();

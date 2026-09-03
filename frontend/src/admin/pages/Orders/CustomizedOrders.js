@@ -3,7 +3,7 @@ import axios from "axios";
 import { Eye, Search, ChevronLeft, ChevronRight, Wand2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const CustomizedOrders = () => {
     const [orders, setOrders] = useState([]);

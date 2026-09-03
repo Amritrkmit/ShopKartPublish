@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ChevronRight, Upload, X } from "lucide-react";
 import { useConfirmation } from "../../context/ConfirmationContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export default function Category({ parentOptions = [], onSuccess }) {
   const { id } = useParams();

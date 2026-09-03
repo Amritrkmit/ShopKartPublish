@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ShieldCheck, Truck, Package, Info } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const SellerVibe = ({ shopId, shopName }) => {
     const [vibe, setVibe] = useState(null);

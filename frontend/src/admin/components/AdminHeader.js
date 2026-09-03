@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, Bell, Grid3x3, Sun, Moon, User } from "lucide-react";
 import { io } from "socket.io-client";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 // Socket.IO setup for real-time notifications
 const socket = io(API_BASE_URL, {

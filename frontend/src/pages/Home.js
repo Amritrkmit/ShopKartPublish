@@ -13,7 +13,7 @@ import NearbyShops from '../components/NearbyShops';
 import useLocation from '../hooks/useLocation';
 import Pagination from '../components/Pagination';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const Home = () => {
   const { lat, lng, loading: locLoading } = useLocation();

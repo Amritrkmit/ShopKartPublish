@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext";
 
 import { generateProductUrl, preserveQueryParams } from "../utils/productUrl";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const Header = () => {
   const navigate = useNavigate();

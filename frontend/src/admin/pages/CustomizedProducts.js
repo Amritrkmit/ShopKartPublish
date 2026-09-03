@@ -6,7 +6,7 @@ import { toastSuccess, toastError } from "../../utils/toast";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { encryptId } from "../../utils/secureId";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const CustomizedProducts = () => {
     const [products, setProducts] = useState([]);

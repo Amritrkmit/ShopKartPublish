@@ -6,7 +6,7 @@ import { formatPrice } from "../../../utils/format";
 import { generateProductUrl } from "../../../utils/productUrl";
 import { encryptId } from "../../../utils/secureId";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const AllOrders = () => {
     const [orders, setOrders] = useState([]);

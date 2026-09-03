@@ -4,6 +4,7 @@ import { toastSuccess, toastError, axiosErrorMessage } from "../../utils/toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Store, Mail, Lock, ArrowRight } from "lucide-react";
+import { API_BASE_URL } from "../../config";
 
 
 const SellerLogin = () => {
@@ -16,9 +17,9 @@ const SellerLogin = () => {
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + "/api";
+        const sellerApiBase = API_BASE_URL ? `${API_BASE_URL}/api` : "/api";
         try {
-            const res = await axios.post(`${API_BASE_URL}/sellers/login`, { email, password });
+            const res = await axios.post(`${sellerApiBase}/sellers/login`, { email, password });
 
             const sellerData = res.data.seller || res.data.user; // Compatibility fallback
             loginSeller(sellerData, res.data.token);

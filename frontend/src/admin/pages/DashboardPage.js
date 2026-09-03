@@ -4,7 +4,7 @@ import axios from "axios";
 import { Users, ShoppingBag, DollarSign, Package, Store } from "lucide-react";
 import SalesValueCard from "../components/SalesValueCard";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 // Reusable Stats Card Component
 const DashboardCard = ({ title, value, icon: Icon, color, subtext }) => (

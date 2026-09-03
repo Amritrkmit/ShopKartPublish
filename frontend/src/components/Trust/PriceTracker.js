@@ -12,7 +12,7 @@ import {
 import { TrendingDown, TrendingUp } from 'lucide-react';
 import { formatPrice } from '../../utils/format';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const PriceTracker = ({ productId, currentPrice }) => {
     const [data, setData] = useState([]);

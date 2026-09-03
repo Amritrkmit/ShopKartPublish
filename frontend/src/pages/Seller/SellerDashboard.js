@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useOutletContext, useNavigate } from "react-router-dom";
 import { ShoppingBag, Package, TrendingUp, DollarSign, ChevronRight, Plus, Info } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + "/api";
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "") + "/api";
 
 const DashboardCard = ({ title, value, icon: Icon, color, subtext }) => (
     <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">

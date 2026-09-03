@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import "./Chatbot.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 const SOCKET_URL = API_BASE_URL;
 const socket = io(SOCKET_URL, { withCredentials: true });
 

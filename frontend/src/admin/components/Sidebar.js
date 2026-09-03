@@ -4,7 +4,7 @@ import Logout from "./Logout";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export default function Sidebar({ open, setOpen }) {
   const location = useLocation();

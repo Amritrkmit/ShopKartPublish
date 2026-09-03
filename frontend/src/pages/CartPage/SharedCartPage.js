@@ -5,7 +5,7 @@ import useCart from '../../hooks/useCart';
 import { toastSuccess, toastError } from '../../utils/toast';
 import { generateProductUrl } from '../../utils/productUrl';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const formatINR = (amount) => {
     return new Intl.NumberFormat('en-IN', {

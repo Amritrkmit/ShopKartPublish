@@ -7,7 +7,7 @@ import { toastSuccess } from "../../utils/toast";
 import { formatPrice } from "../../utils/format";
 import { generateProductUrl } from "../../utils/productUrl";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 // Video Component Helper to handle the play() promise correctly
 const SingleVideo = ({ video, isActive, index, setVideoErrors, isMuted }) => {

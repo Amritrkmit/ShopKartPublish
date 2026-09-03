@@ -9,7 +9,7 @@ import { toastSuccess, toastError } from '../../utils/toast';
 import ScratchCard from '../../components/Gamification/ScratchCard';
 
 const stripePromise = loadStripe("pk_test_51O7QshSDAaN37x8hV7n9s3b2j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z");
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const CompletePaymentPage = () => {
     const location = useLocation();

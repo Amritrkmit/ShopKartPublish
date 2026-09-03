@@ -6,7 +6,7 @@ import AccountLayout from "./AccountLayout";
 import { useAuth } from "../../context/AuthContext";
 import { toastSuccess, toastError } from "../../utils/toast";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);

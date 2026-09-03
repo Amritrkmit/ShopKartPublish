@@ -4,7 +4,7 @@ import { toastSuccess, toastError, toastConfirm } from "../../utils/toast";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronRight, Upload, X, Bold, Italic, Underline, List, ListOrdered, Link as LinkIcon, Tag, Package, Truck, Globe, Sliders, Lock } from "lucide-react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 export default function ProductUpload() {
   const { id } = useParams();

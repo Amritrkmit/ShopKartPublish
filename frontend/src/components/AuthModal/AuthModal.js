@@ -4,7 +4,7 @@ import axios from "axios";
 import { toastSuccess, toastError, axiosErrorMessage } from "../../utils/toast";
 import { useAuth } from "../../context/AuthContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const AuthModal = ({ isOpen, onClose }) => {
   const { loginUser } = useAuth();

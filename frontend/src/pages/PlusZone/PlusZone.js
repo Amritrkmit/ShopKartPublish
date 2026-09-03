@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Crown, Zap, Truck, Headphones, Clock, Star, ChevronRight, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const PlusZone = () => {
     const [balance, setBalance] = useState(0);

@@ -5,7 +5,7 @@ import useWishlist from "../hooks/useWishlist";
 import { parsePrice } from "../utils/format";
 import { generateHomepageProductUrl } from "../utils/productUrl";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const ProductCard = ({ product, section, addToWishlist: propAddToWishlist, removeFromWishlist: propRemoveFromWishlist, wishlist: propWishlist }) => {
     const navigate = useNavigate();

@@ -3,6 +3,7 @@ import axios from "axios";
 import { toastSuccess, toastError, axiosErrorMessage } from "../../utils/toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ShieldCheck, Lock, RefreshCw } from "lucide-react";
+import { API_BASE_URL } from "../../config";
 
 const VerifyOtp = () => {
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ const VerifyOtp = () => {
 
         setIsLoading(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/verify-otp`, { email, otp, role });
+            const res = await axios.post(`${API_BASE_URL}/api/auth/verify-otp`, { email, otp, role });
             toastSuccess("OTP Verified Successfully");
 
             // Get the token from response
@@ -61,7 +62,7 @@ const VerifyOtp = () => {
 
         setIsResending(true);
         try {
-            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/forgot-password`, { email, role });
+            await axios.post(`${API_BASE_URL}/api/auth/forgot-password`, { email, role });
             toastSuccess(`New OTP sent to ${email}`);
             setResendCooldown(60); // 60 seconds cooldown
         } catch (err) {

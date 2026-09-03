@@ -7,7 +7,7 @@ import { formatPrice, getPaymentMode } from "../../../utils/format";
 import generateInvoice from "../../../utils/generateInvoice";
 import { decryptId } from "../../../utils/secureId";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const OrderDetailsAdmin = () => {
     const { id } = useParams();

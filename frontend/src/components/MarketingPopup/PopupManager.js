@@ -4,7 +4,7 @@ import axios from 'axios';
 import { X, Gift } from 'lucide-react';
 import SpinWheel from './SpinWheel';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const PopupManager = () => {
     const [popup, setPopup] = useState(null);

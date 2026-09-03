@@ -14,7 +14,7 @@ import MobileSortDrawer from "../../components/MobileSortDrawer";
 import MobileFilterDrawer from "../../components/MobileFilterDrawer";
 import { Signal, Zap, IndianRupee } from 'lucide-react';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 // Mock Data Generators for "Functionality" Demo where DB lacks columns
 const OFFERS = ['Special Price', 'Buy More, Save More', 'No Cost EMI', 'Partner Offer'];

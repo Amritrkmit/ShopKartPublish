@@ -4,7 +4,7 @@ import { toastSuccess, toastError, axiosErrorMessage } from '../../utils/toast';
 import { Users, Plus, Trash2, Clock, Tag, Search, X, TrendingDown, CheckCircle, Edit } from 'lucide-react';
 import ConfirmationModal from '../../components/ConfirmationModal';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const GroupBuyManager = () => {
     const [deals, setDeals] = useState([]);

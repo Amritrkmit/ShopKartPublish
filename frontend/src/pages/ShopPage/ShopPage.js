@@ -14,7 +14,7 @@ import MobileFilterDrawer from "../../components/MobileFilterDrawer";
 // (Copied from CategoryPage to ensure identical card look)
 const OFFERS = ['Special Price', 'Buy More, Save More', 'No Cost EMI', 'Partner Offer'];
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const ShopPage = () => {
     const { slug } = useParams();

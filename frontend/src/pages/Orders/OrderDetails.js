@@ -7,7 +7,7 @@ import { formatPrice, parsePrice } from "../../utils/format";
 import { toastSuccess, toastError } from "../../utils/toast";
 import CancelOrderModal from "../../components/CancelOrderModal/CancelOrderModal";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const OrderDetails = () => {
     const { id: paramId } = useParams();

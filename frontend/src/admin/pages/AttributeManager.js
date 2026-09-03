@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Trash2, Plus, Sliders, Settings, List, Type, CheckSquare, ChevronDown, Monitor } from 'lucide-react';
 import { toastSuccess, toastError } from '../../utils/toast';
 import ConfirmationModal from '../../components/ConfirmationModal';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = (process.env.REACT_APP_API_BASE_URL || "");
 
 const AttributeManager = () => {
     const [categories, setCategories] = useState([]);
